@@ -1,0 +1,110 @@
+.cartPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cartTitle {
+    font-weight: 400;
+    font-size: 1.71vw;
+    line-height: 2.57vw;
+    letter-spacing: 0;
+    margin: 4.5vw 0;
+}
+
+.cartContents {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 2.85vw 3vw 2.85vw;
+}
+
+.cartContent {
+    width: 63.71vw;
+    display: flex;
+    flex-direction: row;
+    gap: 1.57vw;
+    justify-content: space-between;
+}
+
+.cartContent > div:first-child {
+    flex: 0 0 32.14vw; /* Жестко фиксируем 450px, не даем сжиматься или расти */
+}
+
+.cartContent > div:not(:first-child) {
+    flex: 1; /* Распределяем оставшееся место поровну */
+    
+}
+
+.cartContentTitle {
+    font-weight: 400;
+    font-size: 0.92vw;
+    line-height: 100%;
+    letter-spacing: 2%;
+
+}
+
+
+
+
+
+
+
+
+
+
+.cartResult {
+    width: 27.14vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cartResultTitle {
+    font-weight: 400;
+    font-size: 2.14vw;
+    line-height: 2.85vw;
+    letter-spacing: 0;
+}
+
+.cartResultSubtitle {
+    width: 100%;
+    font-weight: 400;
+    font-size: 1.42vw;
+    line-height: 1.7vw;
+    letter-spacing: -1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.78vw 0 0 0;
+}
+
+.cartResultSubtitle:last-of-type {
+    font-size: 1.71vw;
+    line-height: 2.57vw;
+    letter-spacing: 0;
+    margin-top: 3.78vw;
+    margin-bottom: 0.71vw;
+}
+
+.loyalty {
+    font-weight: 400;
+    font-size: 0.78vw;
+    line-height: 100%;
+    letter-spacing: 2%;
+    align-self: flex-end;
+}
+
+.cartButton {
+    width: 100%;
+    height: 4.42vw;
+    border: #333333 1px solid;
+    background-color: #333333;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 1vw;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+    margin-top: 0.71vw;
+}

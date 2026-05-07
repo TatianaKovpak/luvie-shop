@@ -1,0 +1,76 @@
+.giftBanner {
+    background: linear-gradient(0deg, #0000004D, #0000004D), 
+                url('/images/vibehype_20260420_111413_d6c691e2.jpg') no-repeat center / cover;
+    width: 100%;
+    height: 59.28vw;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 12.35vw 6.57vw; 
+    box-sizing: border-box;
+}
+
+.giftTitle {
+    font-weight: 400;
+    font-size: clamp(24px, 2.14vw, 42px);
+    line-height: 2.86vw;
+    letter-spacing: 0%;
+    color: #FFFFFF;
+    position: relative;
+    z-index: 5;
+}
+
+.giftInfo {
+    font-weight: 400;
+    font-size: clamp(14px, 1.14vw, 20px);
+    line-height: 1.93vw;
+    letter-spacing: 0%;
+    margin-top: 1.07vw;
+    color: #FFFFFF;
+    position: relative;
+    z-index: 5;
+    max-width: 35vw;
+}
+
+.giftButton {
+    width: fit-content;
+    min-width: 14.78vw;
+    height: 4.43vw;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.64vw;
+    gap: 10px;
+    margin-top: 2.14vw;
+    background: transparent;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: clamp(12px, 1vw, 22px);
+    line-height: 100%;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    font-weight: 400;
+}
+
+.giftButton img {
+    width: 1.71vw;
+    height: 1.71vw;
+    min-width: 16px;
+    min-height: 16px;
+    flex-shrink: 0;
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+}
+
+.giftButton:hover {
+    background-color: #FFFFFF;
+    color: #333333;
+}
+
+.giftButton:hover img {
+    filter: brightness(0); /* Стрелка становится черной */
+}

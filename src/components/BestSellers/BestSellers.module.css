@@ -1,0 +1,96 @@
+.bestSellersSection {
+    background-color: #E4DAD0;
+    width: 100%;
+    min-height: 60.43vw; 
+    padding: 7.14vw 2.28vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: clamp(24px, 2.14vw, 42px);
+    text-transform: uppercase;
+    color: #333333;
+    margin-bottom: 2.28vw;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 23.59vw); 
+    grid-auto-flow: column; 
+    grid-auto-columns: 23.59vw;
+    gap: 0.36vw; 
+    overflow-x: auto; 
+    margin-top: 2.28vw;
+    padding-bottom: 2vw;
+    scrollbar-width: thin;
+    scrollbar-color: #605855 #C8BCB0;
+}
+
+.grid::-webkit-scrollbar-button:single-button,
+.grid::-webkit-scrollbar-button:double-button,
+.grid::-webkit-scrollbar-button:vertical,
+.grid::-webkit-scrollbar-button:horizontal,
+.grid::-webkit-scrollbar-button:start,
+.grid::-webkit-scrollbar-button:end,
+.grid::-webkit-scrollbar-button:decrement,
+.grid::-webkit-scrollbar-button:increment {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    visibility: hidden;
+}
+
+.grid::-webkit-scrollbar {
+    height: 0.25vw;
+}
+
+.grid::-webkit-scrollbar-track,
+.grid::-webkit-scrollbar-track-piece {
+    background-color: #C8BCB0 !important;
+    border: none !important;
+    margin: 0 !important;
+}
+
+.grid::-webkit-scrollbar-thumb {
+    background-color: #605855 !important;
+    border-radius: 0;
+    border: none !important;
+}
+
+.grid::-webkit-scrollbar-thumb:hover {
+    background-color: #333333 !important;
+}
+
+.grid::-webkit-scrollbar-corner {
+    display: none !important;
+}
+
+.link {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 8.93vw;
+    height: 1.71vw;
+    font-weight: 400;
+    font-size: clamp(12px, 1vw, 22px);
+    line-height: 1.71vw;
+    letter-spacing: -0.01em;
+    margin-top: 2.28vw;
+    text-decoration: none;
+    color: inherit;
+}
+
+.linkImage {
+    width: 1.71vw;
+    height: 1.71vw;
+    min-width: 16px;
+    min-height: 16px;
+    max-width: 30px;
+    max-height: 30px;
+    object-fit: contain;
+    display: block;
+}

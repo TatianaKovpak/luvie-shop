@@ -1,0 +1,82 @@
+.catalog {
+    width: 100%;
+    background-color: #FBFBFB;
+    min-height: 100vh;
+    
+}
+
+/* ОБЩИЙ БЛОК (теперь стили тут) */
+.navContainer {
+    background-color: #F2F3EC;
+    width: 100%;
+    height: 104px;
+    display: flex;
+    justify-content: center; /* Центрируем кнопки или фильтры */
+    align-items: center;
+    border-top: 1px solid #E5E5E5;
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 4.28vw;
+}
+
+.subNavigation {
+    display: flex;
+    justify-content: center;
+    gap: 2.86vw;
+}
+
+.filtersBar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2.86vw; /* Выравнивание по краям экрана */
+}
+
+/* Паддинги для элементов вне серого блока */
+/* .topPadding, .gridPadding {
+    padding-left: 6.57vw;
+    padding-right: 6.57vw;
+} */
+
+/* Твои остальные стили без изменений */
+.subNavLink {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: clamp(14px, 1.14vw, 18px);
+    color: #333;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.filterGroup {
+    display: flex;
+    gap: 2.86vw;
+}
+
+.filterBtn {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(12px, 0.86vw, 14px);
+    color: #333;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.35vw; 
+    width: 100%;
+    margin-top: 2vw;
+    max-height: 106.14vw; 
+    
+    /* Включаем скролл */
+    overflow-y: auto; 
+    overflow-x: hidden;
+    scrollbar-width: thin;
+}

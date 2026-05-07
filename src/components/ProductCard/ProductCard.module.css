@@ -1,0 +1,126 @@
+.productCard {
+    /* width: 23.59vw; */
+    height: 34.57vw;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: background-color 0.4s ease;
+    background-color: transparent;
+    box-sizing: border-box;
+    overflow: hidden; /* Гарантия, что ничего не вылезет */
+    border: #C8BCB0 solid 1px;
+}
+
+.productCard:hover {
+    background-color: #C8BCB0; 
+}
+
+.imageContainer {
+    width: 100%;
+    height: 20.57vw; 
+    background-color: white;
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ВОТ ЭТОТ БЛОК ПОЧИНИТ КАРТИНКУ */
+.productImage {
+    width: 100%;
+    height: 100%;
+    /* object-fit: contain впишет картинку целиком, cover — растянет на весь блок */
+    object-fit: contain; 
+    display: block;
+}
+
+.productLink {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.favoriteBtn {
+    position: absolute; /* Чтобы не зависеть от потока */
+    right: 1.5vw;
+    bottom: 1.5vw;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.icon {
+    width: 1.71vw;
+    height: 1.71vw;
+    display: block;
+}
+
+.hitBadge {
+    position: absolute;
+    top: 1.14vw;
+    right: 1.14vw;
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(10px, 0.93vw, 16px);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 0.4vw 0.8vw;
+    z-index: 2;
+    color: #333;
+}
+
+.info {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1vw;
+}
+
+.name {
+    font-weight: 700;
+    font-size: clamp(12px, 1vw, 20px);
+    line-height: 1.2;
+    text-align: center;
+    color: #333;
+    margin-bottom: 0.5vw;
+}
+
+.price {
+    font-weight: 400;
+    font-size: clamp(14px, 1.1vw, 18px);
+    color: #333;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.productCard:hover .overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.button {
+    width: 100%;
+    height: 4.43vw;
+    background-color: #333333;
+    color: #ffffff;
+    font-size: clamp(10px, 0.8vw, 14px);
+    cursor: pointer;
+    border: none;
+}

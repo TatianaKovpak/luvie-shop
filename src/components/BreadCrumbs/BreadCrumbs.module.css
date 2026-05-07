@@ -1,0 +1,45 @@
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.44vw; /* 20px */
+    padding: 2.86vw; /* Адаптивные 40px */
+    background-color: #E8E8DD;
+}
+
+.itemWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.71vw;
+    border-bottom: 2px solid transparent; /* Линия скрыта */
+    transition: border-color 0.3s ease;
+    height: 80px;
+}
+
+/* Линия появляется ТОЛЬКО у активного элемента */
+.itemWrapperActive {
+    border-bottom: 2px solid #333333;
+    
+}
+
+.link {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: clamp(12px, 1.14vw, 18px);
+    text-decoration: none;
+    color: #333333;
+    white-space: nowrap;
+}
+
+.separator {
+    font-size: 1.2vw;
+    color: #333333;
+}
+
+.current {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: clamp(12px, 1.14vw, 18px);
+    color: #333333; /* Активный текст тоже черный */
+}
