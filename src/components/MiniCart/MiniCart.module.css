@@ -9,13 +9,13 @@
     padding: 1.71vw;
     border: 1px solid #F0F0F0;
     
-    /* Анимация по умолчанию при появлении */
-    animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    /* Анимация появления */
+    animation: slideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 /* Класс для плавного уезда */
 .miniCartExit {
-    animation: slideOut 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: slideOut 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes slideIn {
@@ -41,6 +41,7 @@
     font-size: 0.86vw;
     font-weight: 700;
     letter-spacing: 0.1em;
+    color: #333;
 }
 
 .close {
@@ -49,16 +50,35 @@
     cursor: pointer;
     font-size: 1.2vw;
     color: #999;
+    transition: transform 0.2s ease;
+}
+
+.close:active {
+    transform: scale(0.8);
 }
 
 .itemList {
     max-height: 25vw;
     overflow-y: auto;
     margin-bottom: 1.5vw;
-    scrollbar-width: none;
+    padding-right: 1.14vw; /* Отступ от скролла */
+    scrollbar-width: thin;
+    scrollbar-color: #E8E8DD transparent;
 }
 
-.itemList::-webkit-scrollbar { display: none; }
+/* Скроллбар для Chrome/Safari */
+.itemList::-webkit-scrollbar {
+    width: 4px;
+}
+
+.itemList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.itemList::-webkit-scrollbar-thumb {
+    background-color: #E8E8DD;
+    border-radius: 10px;
+}
 
 .item {
     display: flex;
@@ -79,12 +99,77 @@
 .img {
     width: 4.28vw;
     height: 5.71vw;
-    object-fit: cover;
+    object-fit: contain;
 }
 
-.info h4 { font-size: 0.93vw; font-weight: 400;  margin-bottom: 0.3vw; }
-.info p { font-size: 0.79vw; color: #888; }
-.info strong { font-size: 0.93vw; color: #333; }
+.info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.info h4 { 
+    font-size: 0.93vw; 
+    font-weight: 400;  
+    margin-bottom: 0.3vw; 
+    color: #333;
+}
+
+.info p { 
+    font-size: 0.79vw; 
+    color: #888; 
+    margin-bottom: 0.5vw;
+}
+
+/* Блок управления количеством */
+.controlsRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5vw;
+}
+
+.quantityControls {
+    display: flex;
+    align-items: center;
+    gap: 0.8vw;
+    border: 1px solid #F0F0F0;
+    padding: 2px 8px;
+}
+
+.quantityControls button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: transform 0.1s ease;
+}
+
+.quantityControls button:active:not(:disabled) {
+    transform: scale(0.8);
+}
+
+.quantityControls button:disabled {
+    opacity: 0.3;
+}
+
+.quantityControls img {
+    width: 0.7vw;
+    height: 0.7vw;
+}
+
+.quantityControls span {
+    font-size: 0.8vw;
+    font-weight: 700;
+    min-width: 1.2vw;
+    text-align: center;
+}
+
+.info strong { 
+    font-size: 0.93vw; 
+    color: #333; 
+}
 
 .delete {
     background: none;
@@ -93,6 +178,15 @@
     color: #CCC;
     font-size: 0.86vw;
     padding-left: 1vw;
+    transition: transform 0.1s ease, color 0.2s;
+}
+
+.delete:hover {
+    color: #333;
+}
+
+.delete:active {
+    transform: scale(0.8);
 }
 
 .footer {
@@ -103,10 +197,19 @@
 .total {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.5vw;
 }
 
-.total strong { font-size: 1.2vw; }
+.total span {
+    font-size: 1vw;
+    color: #605855;
+}
+
+.total strong { 
+    font-size: 1.2vw; 
+    color: #333;
+}
 
 .link {
     width: 100%;
@@ -119,6 +222,7 @@
     justify-content: center;
     font-size: 0.86vw;
     font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .link:hover {
@@ -126,5 +230,6 @@
 }
 
 .link:active {
-    transform: scale(0.97); /* Вжимание основной кнопки */
+    transform: scale(0.97);
 }
+

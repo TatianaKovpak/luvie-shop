@@ -1,7 +1,9 @@
+import React, { useMemo } from 'react';
 import { FC, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../services/hooks';
-import { closeMiniCartAction, removeFromCartAction } from '../../services/actions/cartActions';
+import { closeMiniCartAction, removeFromCartAction, updateQuantity } from '../../services/actions/cartActions';
 import { TCartItem } from '../../services/types/data';
+import { products } from '../../constants/products'; // Для проверки остатков
 import styles from './MiniCart.module.css';
 import { Link } from 'react-router-dom';
 
@@ -9,21 +11,30 @@ const MiniCart: FC = () => {
     const dispatch = useAppDispatch();
     const { items, isMiniCartVisible } = useAppSelector(state => state.cart);
     
-    // Локальное состояние для управления анимацией закрытия
     const [isExiting, setIsExiting] = useState(false);
     const cartRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Функция плавного закрытия
-    const handleClose = () => {
-        setIsExiting(true); // Включаем класс анимации уезда
-        setTimeout(() => {
-            dispatch(closeMiniCartAction()); // Реальное удаление из DOM
-            setIsExiting(false); // Сброс для следующего открытия
-        }, 400); // Время должно совпадать с CSS (0.4s)
+    // Функция для получения максимального остатка товара на складе
+    const getMaxQuantity = (item: TCartItem) => {
+        const product = products.find(p => p.id.toString() === item.id);
+        const variant = product?.variants.find(v => v.colorName === item.color);
+        const sizeData = variant?.sizes.find(s => s.value === item.size);
+        return sizeData?.quantity || 0;
     };
 
-    // Запуск таймера на 5 секунд
+    const totalQuantity = useMemo(() => {
+    return items.reduce((acc, item) => acc + item.quantity, 0);
+}, [items]);
+
+    const handleClose = () => {
+        setIsExiting(true);
+        setTimeout(() => {
+            dispatch(closeMiniCartAction());
+            setIsExiting(false);
+        }, 300);
+    };
+
     const startTimer = () => {
         stopTimer();
         timerRef.current = setTimeout(handleClose, 5000);
@@ -54,7 +65,6 @@ const MiniCart: FC = () => {
         };
     }, [isMiniCartVisible]);
 
-    // Перезапуск таймера при изменении состава корзины
     useEffect(() => {
         if (isMiniCartVisible) startTimer();
     }, [items.length]);
@@ -71,31 +81,60 @@ const MiniCart: FC = () => {
             onMouseLeave={startTimer}
         >
             <div className={styles.header}>
-                <span>Корзина ({items.length})</span>
+                <span>Корзина ({totalQuantity})</span>
                 <button className={styles.close} onClick={handleClose}>✕</button>
             </div>
 
             <div className={styles.itemList}>
-                {items.map((item: TCartItem) => (
-                    <div className={styles.item} key={`${item.id}-${item.color}-${item.size}`}>
-                        <Link 
-                            to={`/product/${item.id}/${encodeURIComponent(item.color)}`} 
-                            className={styles.itemLink}
-                            onClick={handleClose}
-                        >
-                            <img src={item.image} alt={item.name} className={styles.img} />
+                {items.map((item: TCartItem) => {
+                    const maxQty = getMaxQuantity(item);
+                    return (
+                        <div className={styles.item} key={`${item.id}-${item.color}-${item.size}`}>
+                            <Link 
+                                to={`/product/${item.id}/${encodeURIComponent(item.color)}`} 
+                                className={styles.itemLink}
+                                onClick={handleClose}
+                            >
+                                <img src={item.image} alt={item.name} className={styles.img} />
+                            </Link>
+                            
                             <div className={styles.info}>
-                                <h4>{item.name}</h4>
+                                <Link 
+                                    to={`/product/${item.id}/${encodeURIComponent(item.color)}`} 
+                                    className={styles.nameLink}
+                                    onClick={handleClose}
+                                >
+                                    <h4>{item.name}</h4>
+                                </Link>
                                 <p>{item.color} / {item.size}</p>
-                                <strong>{(item.price * item.quantity).toLocaleString()} ₽</strong>
+                                
+                                <div className={styles.controlsRow}>
+                                    <div className={styles.quantityControls}>
+                                        <button 
+                                            onClick={() => dispatch(updateQuantity(item.id, item.color, item.size, item.quantity - 1))} 
+                                            disabled={item.quantity <= 1}
+                                        >
+                                            <img src="/icons/Minus.svg" alt="-" />
+                                        </button>
+                                        <span>{item.quantity}</span>
+                                        <button 
+                                            onClick={() => dispatch(updateQuantity(item.id, item.color, item.size, item.quantity + 1))}
+                                            disabled={item.quantity >= maxQty}
+                                        >
+                                            <img src="/icons/Plus.svg" alt="+" />
+                                        </button>
+                                    </div>
+                                    <strong>{(item.price * item.quantity).toLocaleString()} ₽</strong>
+                                </div>
                             </div>
-                        </Link>
-                        <button 
-                            className={styles.delete} 
-                            onClick={() => dispatch(removeFromCartAction({id: item.id, color: item.color, size: item.size}))}
-                        >✕</button>
-                    </div>
-                ))}
+
+                            <button 
+                                className={styles.delete} 
+                                onClick={() => dispatch(removeFromCartAction({id: item.id, color: item.color, size: item.size}))}
+                            >✕</button>
+                        </div>
+                    );
+                })}
             </div>
 
             <div className={styles.footer}>
@@ -112,6 +151,4 @@ const MiniCart: FC = () => {
 };
 
 export default MiniCart;
-
-
 

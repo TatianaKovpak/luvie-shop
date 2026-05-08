@@ -2,14 +2,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #FBFBFB;
+    min-height: 80vh;
 }
 
 .cartTitle {
     font-weight: 400;
     font-size: 1.71vw;
     line-height: 2.57vw;
-    letter-spacing: 0;
     margin: 4.5vw 0;
+    color: #333;
 }
 
 .cartContents {
@@ -22,188 +24,214 @@
 
 .cartContent {
     width: 63.71vw;
-    height: 24vw;
     display: flex;
     flex-direction: column;
-    
-    /* Добавляем скролл */
-    overflow-y: auto;  /* Появится только если товаров больше, чем на 336px */
-    overflow-x: hidden; /* Убираем горизонтальный скролл на всякий случай */
-    
-    /* Quiet Luxury: делаем скроллбар тонким и аккуратным */
-    scrollbar-width: thin;
-    scrollbar-color: #E8E8DD transparent;
 }
 
-/* Настройка стиля скроллбара для Chrome, Safari */
-.cartContent::-webkit-scrollbar {
-    width: 1px;
-}
-
-.cartContent::-webkit-scrollbar-thumb {
-    background-color: #333;
-    border-radius: 10px;
-}
-
+/* ЗАГОЛОВКИ (статичны) */
 .cartContentTitles {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 0.57vw;
+    padding-bottom: 1.14vw;
+    border-bottom: 1px solid #E8E8DD;
 }
 
 .cartContentTitles > h3:first-child {
-    flex: 0 0 32.14vw; /* Жестко фиксируем 450px, не даем сжиматься или расти */
+    flex: 0 0 32.14vw; /* 450px */
 }
 
 .cartContentTitles > h3:not(:first-child) {
-    flex: 1; /* Распределяем оставшееся место поровну */
-    
+    flex: 1;
+    text-align: left;
 }
 
 .cartContentTitle {
     font-weight: 400;
     font-size: 0.92vw;
     line-height: 100%;
-    letter-spacing: 2%;
+    color: #333;
 }
 
+/* ОБЛАСТЬ СКРОЛЛА */
+.itemsList {
+    height: 30vw;
+    max-height: 26.35vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #E8E8DD transparent;
+    padding-right: 1.14vw;
+}
+
+.itemsList::-webkit-scrollbar { width: 4px; }
+.itemsList::-webkit-scrollbar-thumb {
+    background-color: #E8E8DD;
+    border-radius: 10px;
+}
+
+/* КАРТОЧКА ТОВАРА */
 .cartItem {
     width: 100%;
     max-height: 8.78vw;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 1.57vw 1.61vw 1.57vw 0;
-    border-top: 1px solid #E8E8DD;
+    padding: 1.57vw 0;
+    border-bottom: 1px solid #E8E8DD; /* Бордер снизу у каждой */
     align-items: center;
-
 }
 
 .cartItem > div:first-child {
-    flex: 0 0 32.14vw; /* Жестко фиксируем 450px, не даем сжиматься или расти */
+    flex: 0 0 32.14vw;
 }
 
-.cartItem:not(:first-child) {
-    flex: 1; /* Распределяем оставшееся место поровну */
-    
+.cartItem > p, 
+.cartItem > .quantityControls, 
+.cartItem > .itemTotal {
+    flex: 1;
 }
+
 .cartItemDescription {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 5.64vw;
-    
-
 }
 
-.cartItemInfo{
+.cartItemInfo {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    
+    justify-content: center;
+    gap: 0.5vw;
 }
+
+.cartItemInfo h4 {
+    font-size: 1vw;
+    font-weight: 400;
+}
+
 .cartItemLink {
     display: block;
-    margin-right: 0.85vw;
-    width: 4.57vw;
-    height: 4.57vw;
-    object-fit: cover;
-    overflow: hidden;
+    margin-right: 1.14vw;
+    width: 5.71vw;
+    height: 7.14vw;
     flex-shrink: 0;
+    transition: opacity 0.2s;
 }
+
+.cartItemLink:hover { opacity: 0.8; }
 
 .cartItemImage {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Сохраняем пропорции, обрезая лишнее */
-    display: block;
+    object-fit: contain;
 }
 
 .colorInfo {
     display: flex;
-    flex-direction: row;
+    align-items: center;
 }
 
 .colorCircle {
-    width: 2.14vw;
-    height: 2.14vw;
+    width: 1.14vw;
+    height: 1.14vw;
     border-radius: 50%;
     border: 1px solid #E5E5E5;
-    cursor: pointer;
+    margin-left: 0.5vw;
 }
 
+/* УПРАВЛЕНИЕ КОЛИЧЕСТВОМ */
 .quantityControls {
-    width: 6.57vw;
-    align-items: center;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
+    gap: 1vw;
 }
 
+.quantityControls button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.quantityControls button:active:not(:disabled) { transform: scale(0.8); }
+.quantityControls button:disabled { opacity: 0.3; }
+
+.quantityControls img { width: 0.86vw; height: 0.86vw; }
+
+/* ИТОГ ПО ТОВАРУ */
 .itemTotal {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
+.deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
 
+.deleteBtn:active { transform: scale(0.8); }
+.deleteBtn img { width: 1vw; height: 1vw; }
 
-
-
+/* ПРАВАЯ ПАНЕЛЬ */
 .cartResult {
     width: 27.14vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    background: #fff;
+    padding: 2.14vw;
+    height: fit-content;
+    border: 1px solid #E8E8DD;
 }
 
 .cartResultTitle {
     font-weight: 400;
     font-size: 2.14vw;
-    line-height: 2.85vw;
-    letter-spacing: 0;
+    margin-bottom: 2vw;
 }
 
 .cartResultSubtitle {
-    width: 100%;
-    font-weight: 400;
-    font-size: 1.42vw;
-    line-height: 1.7vw;
-    letter-spacing: -1%;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    margin: 0.78vw 0 0 0;
+    margin-bottom: 1vw;
+    font-size: 1.14vw;
+}
+
+.hitBushTotal {
+    font-family: 'Hit Bush', sans-serif;
+    font-size: 1.71vw;
+    color: #333;
 }
 
 .cartResultSubtitle:last-of-type {
-    font-size: 1.71vw;
-    line-height: 2.57vw;
-    letter-spacing: 0;
-    margin-top: 3.78vw;
-    margin-bottom: 0.71vw;
+    margin-top: 2vw;
+    padding-top: 1.5vw;
+    border-top: 1px solid #333;
 }
 
 .loyalty {
-    font-weight: 400;
     font-size: 0.78vw;
-    line-height: 100%;
-    letter-spacing: 2%;
-    align-self: flex-end;
+    margin: 1.5vw 0;
+    text-align: right;
 }
 
 .cartButton {
     width: 100%;
     height: 4.42vw;
-    border: #333333 1px solid;
-    background-color: #333333;
-    color: #FFFFFF;
-    font-weight: 400;
+    background-color: #333;
+    color: #fff;
+    border: none;
     font-size: 1vw;
-    line-height: 1.71vw;
-    letter-spacing: -1%;
-    margin-top: 0.71vw;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cartButton:active:not(:disabled) { transform: scale(0.97); }
+.cartButton:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.emptyCart {
+    padding: 2vw 0;
+    font-style: italic;
+    color: #999;
 }

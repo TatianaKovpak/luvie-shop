@@ -72,6 +72,7 @@ const ProductPage: FC = () => {
                 size: selectedSize,
                 quantity: counter
             }));
+            setSelectedSize(null);
         }
     };
 

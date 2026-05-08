@@ -463,5 +463,127 @@ export const products: IProduct[] = [
       },
     ]
   },
+  {
+    id: 13,
+    name: "Халат Luvie Lace Edition",
+    pathName: "Для нее/Домашняя одежда/Пижамы, комплекты для дома",
+    description: "Лимитированная серия кружевных халатов Luvie. Модель отличается премиальным качеством кружева и глубокими насыщенными оттенками. Совершенство в каждой детали.",
+    relatedIds: [1, 7],
+    variants: [
+      {
+        colorName: "cipria",
+        colorCode: "#e9bcb0",
+        isHit: false,
+        price: "6 200",
+        images: ["/images/66.jpg", "/images/67.jpg", "/images/68.jpg", "/images/80.jpg"],
+        showFavorite: true,
+        sizes: [
+          { value: "70B", inStock: true, quantity: 3 },
+          { value: "75B", inStock: true, quantity: 5 },
+          { value: "75D", inStock: false, quantity: 0 }
+        ]
+      },
+      {
+        colorName: "черный",
+        colorCode: "#000000",
+        isHit: false,
+        price: "6 200",
+        images: ["/images/69.jpg", "/images/70.jpg", "/images/71.jpg", "/images/80.jpg"],
+        showFavorite: true,
+        sizes: [
+          { value: "70B", inStock: true, quantity: 3 },
+          { value: "75B", inStock: true, quantity: 5 },
+          { value: "75D", inStock: false, quantity: 0 }
+        ]
+      },
+      {
+        colorName: "белый",
+        colorCode: "#FFFFFF",
+        isHit: false,
+        price: "6 200",
+        images: ["/images/63.jpg", "/images/64.jpg", "/images/65.jpg", "/images/80.jpg"],
+        showFavorite: true,
+        sizes: [
+          { value: "70B", inStock: true, quantity: 2 },
+          { value: "75B", inStock: true, quantity: 4 },
+          { value: "75D", inStock: false, quantity: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 14,
+    name: "Халат Luvie Lace Edition",
+    pathName: "Для нее/Домашняя одежда/Пижамы, комплекты для дома",
+    description: "Лимитированная серия кружевных халатов Luvie. Модель отличается премиальным качеством кружева и глубокими насыщенными оттенками. Совершенство в каждой детали.",
+    relatedIds: [1, 7],
+    variants: [
+      {
+        colorName: "cipria",
+        colorCode: "#e9bcb0",
+        isHit: false,
+        price: "6 200",
+        images: ["/images/75.jpg", "/images/76.jpg", "/images/77.jpg"],
+        showFavorite: true,
+        sizes: [
+          { value: "70B", inStock: true, quantity: 3 },
+          { value: "75B", inStock: true, quantity: 5 },
+          { value: "75D", inStock: false, quantity: 0 }
+        ]
+      },
+      {
+        colorName: "белый",
+        colorCode: "#FFFFFF",
+        isHit: false,
+        price: "6 200",
+        images: ["/images/72.jpg", "/images/73.jpg", "/images/74.jpg"],
+        showFavorite: true,
+        sizes: [
+          { value: "70B", inStock: true, quantity: 2 },
+          { value: "75B", inStock: true, quantity: 4 },
+          { value: "75D", inStock: false, quantity: 0 }
+        ]
+      }
+    ]
+  },
+    {
+    id: 15,
+    name: "Пижама жен. Lormar",
+    pathName: "Для нее/Домашняя одежда",
+    description: "Бюстгальтер мягкая чашка из микрофибры и эластичного кружева, на каркасах, подкладка чашки из хлопкового полотна. Cостав: 85% Полиамид, 15% Эластан.",
+    relatedIds: [7, 5, 6, 1, 2, 3, 9],
+    variants: [
+      {
+        colorName: "розовый",
+        colorCode: "#F6D0CC",
+        isHit: false,
+        price: "6 200",
+        images: ["/images/81.jpg", "/images/82.jpg", "/images/83.jpg", "/images/84.jpg"],
+        showFavorite: true,
+        sizes: [
+          { value: "42", inStock: true, quantity: 4 },
+          { value: "44", inStock: true, quantity: 6 },
+          { value: "46", inStock: true, quantity: 6 },
+          
+        ]
+      },
+      // {
+      //   colorName: "черный",
+      //   colorCode: "#000000",
+      //   isHit: false,
+      //   price: "6 200",
+      //   images: ["/images/51.jpg", "/images/52.jpg", "/images/53.jpg"],
+      //   showFavorite: true,
+      //   sizes: [
+      //     { value: "42", inStock: true, quantity: 4 },
+      //     { value: "44", inStock: true, quantity: 6 },
+      //     { value: "46", inStock: true, quantity: 6 },
+      //     { value: "48", inStock: true, quantity: 6 },
+      //     { value: "50", inStock: true, quantity: 6 },
+      //     { value: "52", inStock: true, quantity: 6 },
+      //   ]
+      // },
+    ]
+  },
 ];
 
