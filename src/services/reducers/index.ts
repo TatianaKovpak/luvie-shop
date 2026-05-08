@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux';
-import { cartReducer } from './cartReducer';
-// Импортируй тип экшенов, чтобы все было прозрачно
+import { combineReducers, Reducer } from 'redux';
+import { cartReducer, TCartState } from './cartReducer';
 import { TCartActions } from '../actions/cartActions';
 
-export const rootReducer = combineReducers({
-    cart: cartReducer
-});
+export type RootState = {
+    cart: TCartState;
+};
 
-// Вместо ручного описания Reducer<RootState, ...> 
-// просто экспортируй тип через ReturnType
-export type RootState = ReturnType<typeof rootReducer>;
+// Пропускаем через unknown, как и просит ошибка ts(2352)
+export const rootReducer = (combineReducers({
+    cart: cartReducer
+}) as unknown) as Reducer<RootState, TCartActions>;

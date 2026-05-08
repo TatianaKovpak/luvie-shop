@@ -1,28 +1,31 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
-import { products } from '../../constants/products';
-import styles from './ProductPage.module.css';
 import { Swiper as SwiperType } from 'swiper';
 
 // Стили Swiper
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
-import RelatedProducts from '../RelatedProducts/RelatedProducts';
 
-const ProductPage = () => {
+import { products } from '../../constants/products';
+import { useAppDispatch } from '../../services/hooks';
+import { addToCartAction } from '../../services/actions/cartActions';
+import RelatedProducts from '../RelatedProducts/RelatedProducts';
+import styles from './ProductPage.module.css';
+
+const ProductPage: FC = () => {
     const { id, color } = useParams<{ id: string, color: string }>();
+    const dispatch = useAppDispatch();
+
     const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
     const [counter, setCounter] = useState<number>(0);
 
-    // 1. Поиск товара и хлебных крошек
     const product = useMemo(() => products.find(p => p.id.toString() === id), [id]);
     const breadcrumbs = useMemo(() => product?.pathName.split('/') || [], [product]);
 
-    // 2. Определение начального индекса цвета
     const initialIndex = useMemo(() => {
         if (!product || !color) return 0;
         const index = product.variants.findIndex(v => v.colorName === decodeURIComponent(color));
@@ -31,55 +34,55 @@ const ProductPage = () => {
 
     const [activeVariantIdx, setActiveVariantIdx] = useState(initialIndex);
 
-    // 3. Лимит счетчика на основе реального количества (quantity)
-    const maxAvailable = useMemo(() => {
-        if (!product || !selectedSize) return 0;
-        const variant = product.variants[activeVariantIdx];
-        const sizeData = variant.sizes.find(s => s.value === selectedSize);
-        return sizeData?.quantity || 0;
-    }, [product, selectedSize, activeVariantIdx]);
+    const currentVariant = useMemo(() => {
+        return product?.variants[activeVariantIdx] || product?.variants[0];
+    }, [product, activeVariantIdx]);
 
-    // 4. Синхронизация при смене цвета или товара
+    const price = useMemo(() => {
+        if (!currentVariant) return 0;
+        return Number(currentVariant.price.replace(/\D/g, ''));
+    }, [currentVariant]);
+
+    const maxAvailable = useMemo(() => {
+        if (!currentVariant || !selectedSize) return 0;
+        const sizeData = currentVariant.sizes.find(s => s.value === selectedSize);
+        return sizeData?.quantity || 0;
+    }, [currentVariant, selectedSize]);
+
     useEffect(() => {
         setActiveVariantIdx(initialIndex);
         setSelectedSize(null);
         window.scrollTo(0, 0);
     }, [initialIndex, id]);
 
-    // 5. Сброс счетчика при выборе размера
     useEffect(() => {
         setCounter(selectedSize ? 1 : 0);
     }, [selectedSize]);
 
-    if (!product) return <div className={styles.error}>Товар не найден</div>;
+    // ФУНКЦИЯ ДОБАВЛЕНИЯ В КОРЗИНУ
+    const handleAddToCart = () => {
+        if (product && currentVariant && selectedSize && counter > 0) {
+            dispatch(addToCartAction({
+                id: product.id.toString(),
+                name: product.name,
+                price: price,
+                image: currentVariant.images[0], 
+                color: currentVariant.colorName,
+                colorCode: currentVariant.colorCode, 
+                size: selectedSize,
+                quantity: counter
+            }));
+        }
+    };
 
-// 2. Безопасно получаем текущий вариант
-// Если activeVariantIdx стал невалидным для нового товара, берем первый доступный [0]
-const currentVariant = useMemo(() => {
-    return product.variants[activeVariantIdx] || product.variants[0];
-}, [product, activeVariantIdx]);
-
-// 3. Безопасно считаем цену
-const price = useMemo(() => {
-    if (!currentVariant) return 0;
-    return Number(currentVariant.price.replace(/\D/g, ''));
-}, [currentVariant]);
-
-// 4. Сброс индекса при смене товара (вот тут нужен useEffect)
-useEffect(() => {
-    // Если мы перешли на другой товар, и старый индекс больше, 
-    // чем количество цветов у нового товара — сбрасываем в 0
-    if (!product.variants[activeVariantIdx]) {
-        setActiveVariantIdx(0);
-    }
-}, [id, product.variants, activeVariantIdx]);
+    if (!product || !currentVariant) return <div className={styles.error}>Товар не найден</div>;
 
     return (
         <section className={styles.productPage}>
             <div className={styles.container}>
                 <div className={styles.mainInfo}>
-
-                    {/* ГАЛЕРЕЯ */}
+                    
+                    {/* ТВОЙ СВАЙПЕР (БЕЗ ИЗМЕНЕНИЙ) */}
                     <Swiper
                         className={styles.swiper}
                         modules={[Autoplay, Pagination, EffectFade]}
@@ -105,20 +108,13 @@ useEffect(() => {
                         ))}
                     </Swiper>
 
-                    {/* ДЕТАЛИ ТОВАРА */}
                     <aside className={styles.details}>
                         <div className={styles.stickyContent}>
-
-                            {/* КРОШКИ */}
                             <nav className={styles.productBreadcrumbs}>
-                                {breadcrumbs.slice(1).map((item, index, filteredArr) => (
-                                    <React.Fragment key={item}>
+                                {breadcrumbs.slice(1).map((item, index, arr) => (
+                                    <React.Fragment key={index}>
                                         <span>{item}</span>
-                                        {index < filteredArr.length - 1 && (
-                                            <span className={styles.separator}>
-                                                <img src="/icons/Ellipse.svg" alt="" />
-                                            </span>
-                                        )}
+                                        {index < arr.length - 1 && <span className={styles.separator}><img src="/icons/Ellipse.svg" alt="" /></span>}
                                     </React.Fragment>
                                 ))}
                             </nav>
@@ -131,27 +127,20 @@ useEffect(() => {
                                 <p>ДОБАВИТЬ В ИЗБРАННОЕ</p>
                             </button>
 
-                            {/* ЦВЕТ */}
                             <div className={styles.optionGroup}>
                                 <p className={styles.optionLabel}>Цвет : <span>{currentVariant.colorName}</span></p>
                                 <div className={styles.colorList}>
                                     {product.variants.map((v, i) => (
                                         <button
-                                            key={v.colorName}
+                                            key={i}
                                             className={`${styles.colorCircle} ${activeVariantIdx === i ? styles.activeColor : ''}`}
                                             style={{ backgroundColor: v.colorCode }}
-                                            onClick={() => {
-                                                if (activeVariantIdx === i) return;
-                                                setActiveVariantIdx(i);
-                                                setSelectedSize(null);
-                                            }}
-                                            title={v.colorName}
+                                            onClick={() => { setActiveVariantIdx(i); setSelectedSize(null); }}
                                         />
                                     ))}
                                 </div>
                             </div>
 
-                            {/* РАЗМЕР */}
                             <div className={styles.optionGroup}>
                                 <p className={styles.optionLabel}>Размер</p>
                                 <div className={styles.sizeList}>
@@ -159,11 +148,7 @@ useEffect(() => {
                                         <button
                                             key={s.value}
                                             disabled={!s.inStock}
-                                            className={`
-                                                ${styles.sizeBtn} 
-                                                ${selectedSize === s.value ? styles.activeSize : ''} 
-                                                ${!s.inStock ? styles.disabledBtn : ''}
-                                            `}
+                                            className={`${styles.sizeBtn} ${selectedSize === s.value ? styles.activeSize : ''} ${!s.inStock ? styles.disabledBtn : ''}`}
                                             onClick={() => setSelectedSize(selectedSize === s.value ? null : s.value)}
                                         >
                                             {s.value}
@@ -172,31 +157,20 @@ useEffect(() => {
                                 </div>
                             </div>
 
-                            {/* ПОКУПКА */}
                             <div className={styles.purchaseActions}>
                                 <div className={styles.counter}>
-                                    <button
-                                        className={styles.minus}
-                                        onClick={() => counter > 1 && setCounter(counter - 1)}
-                                        disabled={counter <= 1}
-                                    >
-                                        <img src="/icons/Minus.svg" alt="меньше" />
+                                    <button onClick={() => setCounter(c => c - 1)} disabled={counter <= 1}>
+                                        <img src="/icons/Minus.svg" alt="-" />
                                     </button>
-
                                     <p>{counter}</p>
-
-                                    <button
-                                        className={styles.plus}
-                                        onClick={() => counter < maxAvailable && setCounter(counter + 1)}
-                                        disabled={counter >= maxAvailable || !selectedSize}
-                                    >
-                                        <img src="/icons/Plus.svg" alt="больше" />
+                                    <button onClick={() => setCounter(c => c + 1)} disabled={counter >= maxAvailable || !selectedSize}>
+                                        <img src="/icons/Plus.svg" alt="+" />
                                     </button>
                                 </div>
 
-                                <p className={styles.price}>{(counter * price) || price} ₽</p>
+                                <p className={styles.price}>{(counter * price || price).toLocaleString()} ₽</p>
 
-                                <button className={styles.buyBtn} disabled={!selectedSize}>
+                                <button className={styles.buyBtn} disabled={!selectedSize} onClick={handleAddToCart}>
                                     {selectedSize ? "В корзину" : "Выберите размер"}
                                 </button>
                             </div>
@@ -207,21 +181,17 @@ useEffect(() => {
                 <div className={styles.setBlock}>
                     <h6 className={styles.setTitle}>Прекрасный комплект</h6>
                     <div className={styles.setImages}>
-                        <img src="/icons/card.svg" alt="item1" />
-                        <img className={styles.plusIcon} src="/icons/Plus.svg" alt="+" />
-                        <img src="/icons/card (1).svg" alt="item2" />
-                        <img className={styles.plusIcon} src="/icons/Plus.svg" alt="+" />
-                        <img src="/icons/card (2).svg" alt="item3" />
+                        <img src="/icons/card.svg" alt="" />
+                        <img src="/icons/Plus.svg" className={styles.plusIcon} alt="" />
+                        <img src="/icons/card (1).svg" alt="" />
+                        <img src="/icons/Plus.svg" className={styles.plusIcon} alt="" />
+                        <img src="/icons/card (2).svg" alt="" />
                     </div>
                 </div>
-                <div className={styles.relatedIds}>
-                    <h3 className={styles.relatedIdsTitle}>Сочетается с...</h3>
-                    <p className={styles.relatedIdsSubtitle}>Возможно, Вам понравится</p>
-                    <RelatedProducts relatedIds={product.relatedIds}/>
-                    <Link className={styles.relatedIdsLink} to={''}>
-                    Смотреть все
-                    <img className={styles.linkArrow} src="/icons/ArrowRight.svg" alt="" />
-                    </Link>
+
+                <div className={styles.relatedWrapper}>
+                    <h3 className={styles.relatedTitle}>Сочетается с...</h3>
+                    <RelatedProducts relatedIds={product.relatedIds} />
                 </div>
             </div>
         </section>
@@ -229,3 +199,4 @@ useEffect(() => {
 };
 
 export default ProductPage;
+

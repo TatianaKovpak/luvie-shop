@@ -1,18 +1,24 @@
 .productCard {
-    /* width: 23.59vw; */
     height: 34.57vw;
     display: flex;
     flex-direction: column;
     position: relative;
-    transition: background-color 0.4s ease;
+    transition: all 0.3s ease;
     background-color: transparent;
     box-sizing: border-box;
-    overflow: hidden; /* Гарантия, что ничего не вылезет */
+    overflow: hidden;
     border: #C8BCB0 solid 1px;
+    cursor: pointer;
 }
 
+/* Эффект наведения на всю карточку */
 .productCard:hover {
     background-color: #C8BCB0; 
+}
+
+/* Эффект вжимания всей карточки при клике */
+.productCard:active {
+    transform: scale(0.98);
 }
 
 .imageContainer {
@@ -27,26 +33,15 @@
     overflow: hidden;
 }
 
-/* ВОТ ЭТОТ БЛОК ПОЧИНИТ КАРТИНКУ */
 .productImage {
     width: 100%;
     height: 100%;
-    /* object-fit: contain впишет картинку целиком, cover — растянет на весь блок */
     object-fit: contain; 
     display: block;
 }
 
-.productLink {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
 .favoriteBtn {
-    position: absolute; /* Чтобы не зависеть от потока */
+    position: absolute;
     right: 1.5vw;
     bottom: 1.5vw;
     background: none;
@@ -54,6 +49,12 @@
     padding: 0;
     cursor: pointer;
     z-index: 5;
+    transition: transform 0.2s ease;
+}
+
+/* Сердечко чуть увеличивается при клике (эффект пульса) */
+.favoriteBtn:active {
+    transform: scale(1.2);
 }
 
 .icon {
@@ -99,6 +100,7 @@
     color: #333;
 }
 
+/* Оверлей с кнопкой Подробнее */
 .overlay {
     position: absolute;
     bottom: 0;
@@ -123,4 +125,18 @@
     font-size: clamp(10px, 0.8vw, 14px);
     cursor: pointer;
     border: none;
+    letter-spacing: 0.1em;
+    transition: all 0.2s ease;
 }
+
+/* Опасити при наведении на кнопку */
+.button:hover {
+    opacity: 0.9;
+}
+
+/* Эффект вжимания для кнопки */
+.button:active {
+    transform: scale(0.96);
+    background-color: #000;
+}
+

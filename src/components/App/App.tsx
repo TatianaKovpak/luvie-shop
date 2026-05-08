@@ -6,11 +6,13 @@ import MainPage from '../MainPage/MainPage' // Укажи правильный �
 import Catalog from '../Catalog/Catalog'
 import ProductPage from '../ProductPage/ProductPage'
 import Cart from '../Cart/Cart'
+import MiniCart from '../MiniCart/MiniCart'
 
 function App() {
   return (
     <>
       <Header />
+      <MiniCart/> 
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/catalog/:gender/:category?/:group?/:item?" element={<Catalog />} />

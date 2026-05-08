@@ -4,6 +4,11 @@
     flex-direction: column;
     border-top: 1px solid #333333;
     min-height: 120vh;
+    background-color: #FBFBFB;
+}
+
+.container {
+    width: 100%;
 }
 
 .mainInfo {
@@ -13,16 +18,17 @@
     margin-right: 5.71vw;
 }
 
-/* --- НАВИГАЦИЯ --- */
+/* --- НАВИГАЦИЯ (КРОШКИ) --- */
 .productBreadcrumbs {
     width: max-content;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
     font-weight: 400;
     font-size: 1vw;
     line-height: 1.71vw;
     gap: 0.71vw;
+    color: #333;
 }
 
 .separator {
@@ -30,7 +36,12 @@
     align-items: center;
 }
 
-/* --- ГАЛЕРЕЯ --- */
+.separator img {
+    width: 4px;
+    height: 4px;
+}
+
+/* --- ГАЛЕРЕЯ (SWIPER) --- */
 .swiper {
     min-height: 100%;
     width: 55.42vw; 
@@ -53,38 +64,40 @@
     height: 100%;
     object-fit: contain; 
     display: block;
+    cursor: pointer;
 }
 
-/* ПАГИНАЦИЯ */
+/* ПАГИНАЦИЯ SWIPER */
 .swiper :global(.swiper-pagination-bullet) {
     width: 55.42px !important;
     height: 2px;
-    opacity: 50%;
-    outline: none !important;
-    transition: opacity 0.3s ease !important;
-    margin: 0 12px !important;
+    background: #fff !important;
+    opacity: 0.5;
+    border-radius: 0;
+    transition: opacity 0.3s ease;
 }
 
 .swiper :global(.swiper-pagination-bullet-active) {
-    background: #fff;
-    border-radius: 5px;
-    outline: none !important;
+    opacity: 1 !important;
 }
 
-/* --- ДЕТАЛИ --- */
+/* --- ДЕТАЛИ ТОВАРА --- */
 .details {
     width: 25.42vw;
-    top: 120px;
     margin-right: 5.71vw;
     padding-top: 6.57vw;  
     padding-bottom: 6.57vw;
+}
+
+.stickyContent {
+    position: sticky;
+    top: 120px;
 }
 
 .title {
     font-size: 2.14vw;
     font-weight: 400;
     line-height: 2.85vw;
-    letter-spacing: 0%;
     margin-bottom: 1.14vw;
     margin-top: 2.14vw;
     color: #333;
@@ -94,32 +107,26 @@
     font-weight: 400;
     font-size: 1vw;
     line-height: 1.71vw;
-    letter-spacing: -1%;
     color: #605855;
     margin-bottom: 2.86vw;
 }
 
-.price {
-    font-size: 1.71vw;
-    font-weight: 400;
-    margin-bottom: 2.14vw;
-}
-
-/* --- КНОПКИ --- */
+/* --- КНОПКИ И ИНТЕРАКТИВ --- */
 .likeButton {
     display: flex;
-    flex-direction: row;
     align-items: center;
     gap: 0.71vw;
-    width: 21.42vw;
-    font-weight: 400;
-    font-size: 1.14vw;
-    line-height: 1.92vw;
-    letter-spacing: 0;
-    margin-bottom: 2.14vw;
     background: none;
     border: none;
     cursor: pointer;
+    font-size: 1.14vw;
+    color: #333;
+    margin-bottom: 2.14vw;
+    transition: transform 0.1s ease;
+}
+
+.likeButton:active {
+    transform: scale(0.95);
 }
 
 .likeButton img {
@@ -127,29 +134,28 @@
     height: 1.71vw;
 }
 
+/* ГРУППЫ ОПЦИЙ (ЦВЕТ/РАЗМЕР) */
 .optionGroup {
     margin-bottom: 2.14vw;
+    padding-top: 1.57vw;
 }
 
 .optionGroup:first-of-type {
-    border-top: #333333 solid 2px;
+    border-top: #333333 solid 1px;
 }
 
 .optionGroup:not(:first-of-type) {
     border-top: #E8E8DD solid 1px;
-    border-bottom: #E8E8DD solid 1px;
 }
 
 .optionLabel {
     font-size: 1vw;
     font-weight: 700;
     line-height: 1.71vw;
-    letter-spacing: -2%;
     margin-bottom: 0.86vw;
-    margin-top: 1.57vw;
 }
 
-/* --- ЦВЕТА --- */
+/* ЦВЕТА */
 .colorList {
     display: flex;
     gap: 0.71vw;
@@ -162,33 +168,43 @@
     border-radius: 50%;
     border: 1px solid #E5E5E5;
     cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.colorCircle:active {
+    transform: scale(0.85);
 }
 
 .activeColor {
     outline: 1px solid #333;
-    outline-offset: 1px;
+    outline-offset: 2px;
 }
 
-/* --- РАЗМЕРЫ --- */
+/* РАЗМЕРЫ */
 .sizeList {
-    display: grid;
-    grid-template-rows: 34px; 
-    grid-auto-flow: column; 
-    grid-auto-columns: 50px; 
+    display: flex;
     gap: 0.71vw; 
     overflow-x: auto;
-    max-width: calc(35vw + 2.84vw); 
     padding-bottom: 0.71vw;
-    box-sizing: content-box;
 }
 
 .sizeBtn {
+    min-width: 3.57vw;
+    height: 2.42vw;
     border: 1px solid #E5E5E5;
     background: #fff;
     font-size: 1vw;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.2s ease;
     color: #8D6F53;
+}
+
+.sizeBtn:hover:not(.disabledBtn):not(.activeSize) {
+    opacity: 0.6;
+}
+
+.sizeBtn:active:not(.disabledBtn) {
+    transform: scale(0.92);
 }
 
 .activeSize {
@@ -200,30 +216,25 @@
 .disabledBtn {
     opacity: 0.2;
     cursor: not-allowed;
+    text-decoration: line-through;
 }
 
-/* --- СКРОЛЛБАР --- */
+/* СКРОЛЛБАР */
 .sizeList::-webkit-scrollbar {
-    height: 0.25vw;
+    height: 2px;
 }
-
 .sizeList::-webkit-scrollbar-track {
-    background-color: #C8BCB0 !important;
+    background: #E8E8DD;
 }
-
 .sizeList::-webkit-scrollbar-thumb {
-    background-color: #605855 !important;
+    background: #8D6F53;
 }
 
-.sizeList::-webkit-scrollbar-thumb:hover {
-    background-color: #333333 !important;
+/* ПОКУПКА */
+.purchaseActions {
+    margin-top: 2.86vw;
 }
 
-.sizeList::-webkit-scrollbar-button {
-    display: none !important;
-}
-
-/* --- ПОКУПКА --- */
 .counter {
     display: flex;
     align-items: center;
@@ -231,7 +242,7 @@
     border: 1px solid #E5E5E5;
     padding: 0 1.43vw;
     width: 9.71vw;
-    height: 4vw;
+    height: 3.5vw;
     margin-bottom: 1.42vw;
     font-size: 1.14vw;
 }
@@ -240,100 +251,84 @@
     background: none;
     border: none;
     cursor: pointer;
+    transition: transform 0.1s ease;
 }
 
-.counter button:disabled {
-    opacity: 0.3;
+.counter button:active:not(:disabled) {
+    transform: scale(0.8);
 }
 
-.counter img {
-    width: 1.14vw;
-    height: 1.14vw;
+.price {
+    font-size: 1.71vw;
+    font-weight: 400;
+    margin-bottom: 1.5vw;
+    color: #333;
 }
 
 .buyBtn {
-    width: 25.42vw;
+    width: 100%;
     height: 4.42vw;
-    background-color: #333333;
+    background-color: #333;
     color: #fff;
-    border: #333333 solid 1px;
+    border: none;
     font-weight: 700;
     font-size: 1.14vw;
     cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.buyBtn:hover:not(:disabled) {
+    background-color: #000;
+}
+
+.buyBtn:active:not(:disabled) {
+    transform: scale(0.97);
 }
 
 .buyBtn:disabled {
-    background-color: #ffffff;
-    color: #333333;
-    opacity: 0.5;
+    background-color: #fff;
+    color: #ccc;
+    border: 1px solid #eee;
+    cursor: not-allowed;
 }
 
-/* --- КОМПЛЕКТ --- */
+/* --- БЛОК КОМПЛЕКТА --- */
 .setBlock {
     background-color: #E4DAD0;
     width: 100%;
-    height: 32.43vw;
+    padding: 6vw 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 4vw;
 }
 
 .setTitle {
     font-weight: 400;
-    font-size: 24px;
-    line-height: 36px;
-    margin-top: 8.57vw;
+    font-size: 1.71vw;
+    margin-bottom: 3vw;
 }
 
 .setImages {
-    margin-top: 3.85vw;
-    width: 35.85vw;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    gap: 3vw;
 }
 
 .plusIcon {
-    width: 1.14vw;
-    height: 1.14vw;
+    width: 1.5vw;
+    height: 1.5vw;
 }
 
-.relatedIds{
-    margin: 7.14vw 2.28vw;
+/* --- РЕКОМЕНДАЦИИ --- */
+.relatedWrapper {
+    padding: 7.14vw 5.71vw;
 }
 
-.relatedIdsTitle {
-    font-weight: 400;
+.relatedTitle {
     font-size: 2.14vw;
-    line-height: 2.85vw;
-    letter-spacing: 0;
-    color: #333333;
-    margin-bottom: 1.42vw;
-}
-
-.relatedIdsSubtitle {
     font-weight: 400;
-    font-size: 1.14vw;
-    line-height: 1.92vw;
-    letter-spacing: 0;
-    color: #333333;
+    margin-bottom: 3vw;
 }
 
-.relatedIdsLink {
-    width: 8.92vw;
-    justify-content: space-between;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-weight: 400;
-    font-size: 1vw;
-    line-height: 1.71vw;
-    letter-spacing: -1%;
-    margin-top: 2.28vw;
-}
 
-.linkArrow {
-    width: 1.71vw;
-    height: 1.71vw;
-}
