@@ -9,7 +9,8 @@
     height: 100%;
 }
 
-.slideLink {
+/* Новая обертка для картинки, чтобы она была кликабельной */
+.imageLink {
     display: block;
     width: 100%;
     height: 100%;
@@ -41,6 +42,7 @@
     align-items: flex-start;
     color: #fff;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none; /* Пропускает клики сквозь оверлей на картинку-ссылку */
 }
 
 .title {
@@ -77,6 +79,8 @@
     letter-spacing: -0.01em;
     white-space: nowrap;
     font-weight: 400;
+    text-decoration: none;
+    pointer-events: auto; /* Возвращает кликабельность кнопке внутри overlay */
 }
 
 .slideButton img {
@@ -99,6 +103,11 @@
     filter: brightness(0);
 }
 
+/* Эффект вжимания при клике на кнопку */
+.slideButton:active {
+    transform: scale(0.96);
+}
+
 .swiper :global(.swiper-pagination) {
     bottom: 20px !important;
 }
@@ -106,11 +115,12 @@
 .swiper :global(.swiper-pagination-bullet) {
     width: 44.67px !important;
     height: 2px;
-    opacity: 50%;
+    background: #fff !important;
+    opacity: 0.5;
     margin: 0 12px !important;
+    border-radius: 0;
 }
 
 .swiper :global(.swiper-pagination-bullet-active) {
-    background: #fff;
-    border-radius: 5px;
+    opacity: 1 !important;
 }

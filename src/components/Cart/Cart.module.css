@@ -1,9 +1,8 @@
 .cartPage {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: #FBFBFB;
-    min-height: 80vh;
+    align-items: center; 
+    padding-bottom: 4.28vw;
 }
 
 .cartTitle {
@@ -36,11 +35,12 @@
     border-bottom: 1px solid #E8E8DD;
 }
 
-.cartContentTitles > h3:first-child {
-    flex: 0 0 32.14vw; /* 450px */
+.cartContentTitles>h3:first-child {
+    flex: 0 0 32.14vw;
+    /* 450px */
 }
 
-.cartContentTitles > h3:not(:first-child) {
+.cartContentTitles>h3:not(:first-child) {
     flex: 1;
     text-align: left;
 }
@@ -63,7 +63,10 @@
     padding-right: 1.14vw;
 }
 
-.itemsList::-webkit-scrollbar { width: 4px; }
+.itemsList::-webkit-scrollbar {
+    width: 4px;
+}
+
 .itemsList::-webkit-scrollbar-thumb {
     background-color: #E8E8DD;
     border-radius: 10px;
@@ -76,17 +79,18 @@
     display: flex;
     flex-direction: row;
     padding: 1.57vw 0;
-    border-bottom: 1px solid #E8E8DD; /* Бордер снизу у каждой */
+    border-bottom: 1px solid #E8E8DD;
+    /* Бордер снизу у каждой */
     align-items: center;
 }
 
-.cartItem > div:first-child {
+.cartItem>div:first-child {
     flex: 0 0 32.14vw;
 }
 
-.cartItem > p, 
-.cartItem > .quantityControls, 
-.cartItem > .itemTotal {
+.cartItem>p,
+.cartItem>.quantityControls,
+.cartItem>.itemTotal {
     flex: 1;
 }
 
@@ -117,7 +121,9 @@
     transition: opacity 0.2s;
 }
 
-.cartItemLink:hover { opacity: 0.8; }
+.cartItemLink:hover {
+    opacity: 0.8;
+}
 
 .cartItemImage {
     width: 100%;
@@ -150,12 +156,22 @@
     border: none;
     cursor: pointer;
     transition: transform 0.1s ease;
+    display: flex;
+    align-items: center;
 }
 
-.quantityControls button:active:not(:disabled) { transform: scale(0.8); }
-.quantityControls button:disabled { opacity: 0.3; }
+.quantityControls button:active:not(:disabled) {
+    transform: scale(0.8);
+}
 
-.quantityControls img { width: 0.86vw; height: 0.86vw; }
+.quantityControls button:disabled {
+    opacity: 0.3;
+}
+
+.quantityControls img {
+    width: 0.86vw;
+    height: 0.86vw;
+}
 
 /* ИТОГ ПО ТОВАРУ */
 .itemTotal {
@@ -171,8 +187,14 @@
     transition: transform 0.1s ease;
 }
 
-.deleteBtn:active { transform: scale(0.8); }
-.deleteBtn img { width: 1vw; height: 1vw; }
+.deleteBtn:active {
+    transform: scale(0.8);
+}
+
+.deleteBtn img {
+    width: 1vw;
+    height: 1vw;
+}
 
 /* ПРАВАЯ ПАНЕЛЬ */
 .cartResult {
@@ -216,6 +238,14 @@
     text-align: right;
 }
 
+.loyalty a {
+    color: #C8BCB0;
+}
+
+.loyalty a:hover {
+    opacity: 0.7;
+}
+
 .cartButton {
     width: 100%;
     height: 4.42vw;
@@ -227,11 +257,268 @@
     transition: all 0.2s ease;
 }
 
-.cartButton:active:not(:disabled) { transform: scale(0.97); }
-.cartButton:disabled { opacity: 0.5; cursor: not-allowed; }
+.cartButton:hover {
+    background-color: black;
+}
+
+.cartButton:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+.cartButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
 .emptyCart {
     padding: 2vw 0;
     font-style: italic;
     color: #999;
+}
+
+/* --- НИЖНИЙ БЛОК (ДОБАВЛЕНО) --- */
+
+.deliverySection {
+    width: 100%;
+    padding: 0 6.57vw;
+}
+
+.deliveryGrid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.deliveryOptions {
+    width: 38.21vw;
+}
+
+.radioLabel {
+    display: block;
+    cursor: pointer;
+}
+
+.radioHeader {
+    width: 100%;
+    height: 5.42vw;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.21vw;
+    
+    border-bottom: 1px solid #C8BCB0;
+    
+}
+
+.radioHeader span {
+    margin-left: 1.42vw;
+    font-weight: 400;
+    font-size: 1.71vw;
+    line-height: 2.57vw;
+    letter-spacing: 0;
+    color: #333;
+}
+
+.radioInput {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+
+    /* Создаем свой люксовый кружок */
+    width: 1.71vw;
+    height: 1.71vw;
+    min-width: 16px;
+    min-height: 16px;
+    border: 2px solid #8D6F53;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: transparent;
+}
+
+/* При наведении */
+.radioInput:hover {
+    opacity: 0.7;
+}
+
+/* Когда радиокнопка ВЫБРАНА */
+.radioInput:checked {
+    border-color: #8D6F53;
+    background-color: #8D6F53;
+}
+
+.radioInput:checked::before {
+    content: "";
+    width: 1vw;
+    height: 1vw;
+    min-width: 14px;
+    min-height: 14px;
+    display: block;
+    background-image: url("/icons/Check.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(0) invert(1);
+}
+
+.radioInput:active {
+    transform: scale(0.85);
+}
+
+.radioText {
+    font-weight: 400;
+    font-size: 1.14vw;
+    color: #333333;
+    line-height: 1.92;
+    letter-spacing: 0;
+}
+
+.rightDetailsBlock {
+    width: 42vw;
+    min-height: 45.57vw;
+}
+
+.mapWrapper {
+    position: relative;
+    width: 100%;
+    height: 34.42vw;
+    border: 1px solid #E8E8DD;
+    overflow: hidden;
+}
+
+.mapWrapper [class*="-map"] {
+    filter: grayscale(100%) sepia(10%) brightness(1.08) contrast(0.9) !important;
+}
+
+.mapOverlay {
+    width: 100%;
+    height: 11.14vw;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #C8BCB0;
+    padding: 1.5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 10;
+}
+
+.mapOverlay p {
+    font-size: 1vw;
+    letter-spacing: -1%;
+    line-height: 1.71vw;
+}
+
+.mapOverlay p:first-child {
+    font-weight: 700;
+}
+
+.checkoutForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vw;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5vw;
+}
+
+.groupTitle {
+    font-weight: 400;
+    font-size: 1.14vw;
+    line-height: 1.92vw;
+    letter-spacing: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.71vw;
+    color: #333;
+}
+
+.groupTitle img {
+    width: 1.71vw;
+    height: 1.71vw;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.inputRow {
+    width: 45.78vw;
+    display: flex;
+    gap: 2.5vw;
+}
+
+.inputField {
+    width: 21.28vw;
+    height: 3.42vw;
+    padding: 0.85vw;
+    border: 1px solid #E8E8DD;
+    background: transparent;
+    outline: none;
+    font-weight: 400;
+    font-size: 1vw;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+}
+
+.inputField:focus {
+    border: 1px solid #333333;
+}
+
+.inputField::placeholder {
+    color: #C8BCB0;
+    opacity: 1; /* Принудительно отключаем дефолтное прозрачное затухание в Firefox */
+}
+
+.formFooter {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5vw;
+    margin-top: 1.5vw;
+}
+
+.requiredNote {
+    color: #333333;
+    font-weight: 400;
+    font-size: 1.14vw;
+    line-height: 1.92vw;
+    letter-spacing: 0;
+}
+
+.commentGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vw;
+}
+
+/* Стили для многострочного поля ввода */
+.commentArea {
+    width: 100%;
+    height: 12.85vw; /* Фиксированная высота как в макетах */
+    min-height: 180px;
+    padding: 1vw;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+    border: 1px solid #E8E8DD;
+    background: transparent;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1vw;
+    outline: none;
+    resize: none; /* Запрещаем пользователю растягивать поле руками и ломать верстку */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    margin-top: 2.5vw;
+}
+
+.commentArea::placeholder {
+    color: #C8BCB0;
+    opacity: 1; /* Принудительно отключаем дефолтное прозрачное затухание в Firefox */
+}
+
+.commentArea:focus {
+    border-color: #333;
 }

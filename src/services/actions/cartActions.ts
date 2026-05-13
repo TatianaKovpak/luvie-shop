@@ -5,6 +5,7 @@ export const REMOVE_FROM_CART: 'REMOVE_FROM_CART' = 'REMOVE_FROM_CART';
 export const TOGGLE_CART: 'TOGGLE_CART' = 'TOGGLE_CART';
 export const UPDATE_QUANTITY: 'UPDATE_QUANTITY' = 'UPDATE_QUANTITY';
 export const CLOSE_MINI_CART: 'CLOSE_MINI_CART' = 'CLOSE_MINI_CART';
+export const CLEAR_CART: 'CLEAR_CART' = 'CLEAR_CART';
 
 export interface IAddToCartAction {
     readonly type: typeof ADD_TO_CART;
@@ -29,14 +30,18 @@ export interface ICloseMiniCartAction {
     readonly type: typeof CLOSE_MINI_CART;
 }
 
+export interface IClearCartAction {
+    readonly type: typeof CLEAR_CART;
+}
+
 export type TCartActions = 
 
     | IAddToCartAction 
     | IRemoveFromCartAction 
     | IToggleCartAction 
-
     | IUpdateQuantityAction
-    | ICloseMiniCartAction;
+    | ICloseMiniCartAction
+    | IClearCartAction;
 
 export const addToCartAction = (item: TCartItem): IAddToCartAction => ({
     type: ADD_TO_CART,
@@ -59,4 +64,8 @@ export const updateQuantity = (id: string, color: string, size: string, count: n
 
 export const closeMiniCartAction = (): ICloseMiniCartAction => ({
     type: CLOSE_MINI_CART
+});
+
+export const clearCartAction = (): IClearCartAction => ({
+    type: CLEAR_CART
 });

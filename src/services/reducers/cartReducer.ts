@@ -4,7 +4,8 @@ import {
     TOGGLE_CART, 
     UPDATE_QUANTITY, 
     CLOSE_MINI_CART, 
-    TCartActions 
+    TCartActions, 
+    CLEAR_CART
 } from '../actions/cartActions';
 import { TCartItem } from '../types/data';
 
@@ -75,6 +76,9 @@ export const cartReducer = (state = initialState, action: TCartActions): TCartSt
 
         case CLOSE_MINI_CART:
             return { ...state, isMiniCartVisible: false };
+
+        case CLEAR_CART:
+            return { ...state, items: [] }    
 
         default:
             return state;

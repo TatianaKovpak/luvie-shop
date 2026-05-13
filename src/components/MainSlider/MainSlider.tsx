@@ -8,11 +8,10 @@ import 'swiper/css/effect-fade';
 import styles from './MainSlider.module.css';
 
 const MainSlider = () => {
-  
   const slides = [
-    { id: 1, img: '/images/1.jpg', title: 'Новинки одежды для дома', link: '', buttonTitle: 'Выбрать комплект' },
-    { id: 2, img: '/images/2.jpg', title: 'Для неё', link: '', buttonTitle: '' },
-    { id: 3, img: '/images/3.jpg', title: 'Новинки сезона', link: '', buttonTitle: '' },
+    { id: 1, img: '/images/1.jpg', title: 'Новинки одежды для дома', link: '/catalog', buttonTitle: 'Выбрать комплект' },
+    { id: 2, img: '/images/2.jpg', title: 'Для неё', link: '/catalog', buttonTitle: 'Смотреть все' },
+    { id: 3, img: '/images/3.jpg', title: 'Новинки сезона', link: '/catalog', buttonTitle: 'Перейти к покупкам' },
   ];
 
   return (
@@ -29,18 +28,23 @@ const MainSlider = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <Link to={slide.link} className={styles.slideLink}>
-              <div className={styles.slideContent}>
+            <div className={styles.slideContent}>
+              {/* Ссылка теперь только на картинке */}
+              <Link to={slide.link} className={styles.imageLink}>
                 <img src={slide.img} alt={slide.title} className={styles.image} />
-                <div className={styles.overlay}>
-                  <h6 className={styles.title}>{slide.title}</h6>
-                  <Link className={styles.slideButton} to={''}>
+              </Link>
+
+              <div className={styles.overlay}>
+                <h6 className={styles.title}>{slide.title}</h6>
+                {/* Кнопка — отдельная ссылка, не вложенная в другую */}
+                {slide.buttonTitle && (
+                  <Link className={styles.slideButton} to={slide.link}>
                     <span>{slide.buttonTitle}</span>
                     <img src="/icons/ArrowRight.svg" alt="Arrow" />
                   </Link>
-                </div>
+                )}
               </div>
-            </Link>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
