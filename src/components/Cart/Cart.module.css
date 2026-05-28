@@ -32,7 +32,24 @@
     display: flex;
     flex-direction: row;
     padding-bottom: 1.14vw;
-    border-bottom: 1px solid #E8E8DD;
+    
+    /* Обязательно добавляем relative, чтобы линия привязалась к этому блоку */
+    position: relative; 
+}
+
+/* Создаем кастомную линию точной ширины */
+.cartContentTitles::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    
+    /* Задаем ту самую точную ширину, которую ты хочешь */
+    width: 61.86vw; 
+    
+    /* Задаем толщину и цвет линии */
+    height: 1px;
+    background-color: #E8E8DD;
 }
 
 .cartContentTitles>h3:first-child {
@@ -61,6 +78,7 @@
     scrollbar-width: thin;
     scrollbar-color: #E8E8DD transparent;
     padding-right: 1.14vw;
+    padding-bottom: 0.5vw;
 }
 
 .itemsList::-webkit-scrollbar {
@@ -276,8 +294,6 @@
     color: #999;
 }
 
-/* --- НИЖНИЙ БЛОК (ДОБАВЛЕНО) --- */
-
 .deliverySection {
     width: 100%;
     padding: 0 6.57vw;
@@ -322,8 +338,6 @@
     appearance: none;
     -webkit-appearance: none;
     margin: 0;
-
-    /* Создаем свой люксовый кружок */
     width: 1.71vw;
     height: 1.71vw;
     min-width: 16px;

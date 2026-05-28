@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import { useAppSelector, useAppDispatch } from '../../services/hooks';
 import { clearCartAction, removeFromCartAction, updateQuantity } from '../../services/actions/cartActions';
@@ -22,17 +22,19 @@ interface ICheckoutFormData {
 
 const Cart: React.FC = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    
     const { items } = useAppSelector((state) => state.cart);
+    // Получаем статус авторизации и профиль из Redux
+    const { isAuth, user } = useAppSelector((state) => state.user);
 
     // Состояния для доставки
     const [deliveryMethod, setDeliveryMethod] = useState<TDeliveryMethod>('pickup');
     const [cdekPrice, setCdekPrice] = useState<number>(0);
     const [cdekAddress, setCdekAddress] = useState<string>('');
 
-    // Состояния для телефона
+    // Состояния для телефона и полей ввода
     const [phone, setPhone] = useState<string>('');
-
-    // Состояния для полей ввода формы получателя
     const [formData, setFormData] = useState<ICheckoutFormData>({
         lastName: '',
         firstName: '',
@@ -42,6 +44,22 @@ const Cart: React.FC = () => {
         flat: '',
         comment: ''
     });
+
+    // Автоподстановка данных, если пользователь авторизован
+    useEffect(() => {
+        if (isAuth && user) {
+            const nameParts = user.name ? user.name.split(' ') : ['', ''];
+            
+            setFormData(prev => ({
+                ...prev,
+                lastName: nameParts[0] || '',
+                firstName: nameParts[1] || '',
+                email: user.email || ''
+            }));
+            
+            setPhone(user.phone || '');
+        }
+    }, [isAuth, user]);
 
     // Расчеты стоимости и количества товаров
     const totalPrice = useMemo(() => {
@@ -68,7 +86,6 @@ const Cart: React.FC = () => {
         return sizeData?.quantity || 0;
     };
 
-    // Обработчик изменения текстовых инпутов формы
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({
             ...formData,
@@ -76,7 +93,6 @@ const Cart: React.FC = () => {
         });
     };
 
-    // Функции обработки логики ввода маски телефона
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let input = e.target.value;
         input = input.replace(/[^\d+]/g, '');
@@ -105,7 +121,6 @@ const Cart: React.FC = () => {
         if (phone === '+7') setPhone('');
     };
 
-    // Функция полного сброса всей формы и стейтов доставки
     const clearForm = () => {
         setPhone('');
         setFormData({
@@ -119,7 +134,7 @@ const Cart: React.FC = () => {
         });
         setCdekPrice(0);
         setCdekAddress('');
-        dispatch(clearCartAction())
+        dispatch(clearCartAction());
     };
 
     return (
@@ -218,10 +233,19 @@ const Cart: React.FC = () => {
                         </p>
                         <button
                             type="submit"
-                            form={deliveryMethod === 'cdek' || deliveryMethod === 'pickup' ? undefined : "order-form"}
+                            // Атрибут form работает только если пользователь авторизован и выбран курьер
+                            form={isAuth && (deliveryMethod === 'apatity_courier' || deliveryMethod === 'kirovsk_courier') ? "order-form" : undefined}
                             className={styles.cartButton}
                             disabled={items.length === 0}
                             onClick={(e) => {
+                                // КРИТИЧЕСКАЯ ПРОВЕРКА: Если не авторизован — редиректим на страницу логина
+                                if (!isAuth) {
+                                    e.preventDefault();
+                                    navigate('/login');
+                                    return;
+                               }
+
+                                // Если авторизован, обрабатываем Самовывоз и СДЭК напрямую по клику кнопки
                                 if (deliveryMethod === 'pickup' || deliveryMethod === 'cdek') {
                                     e.preventDefault();
                                     alert(`Заказ успешно оформлен! Способ: ${deliveryMethod === 'pickup' ? 'Самовывоз' : 'СДЭК'}`);
@@ -234,7 +258,7 @@ const Cart: React.FC = () => {
                     </div>
                 </div>
 
-                {/* НИЖНИЙ БЛОК: ДОСТАВКА (ОТДЕЛЬНЫЙ SECTION) */}
+                {/* НИЖНИЙ БЛОК: ДОСТАВКА (ТЕПЕРЬ ВИДЕН ВСЕГДА) */}
                 <div className={styles.deliverySection}>
                     <div className={styles.deliveryGrid}>
                         <div className={styles.deliveryOptions}>
@@ -247,7 +271,7 @@ const Cart: React.FC = () => {
                                         checked={deliveryMethod === 'pickup'} 
                                         onChange={() => setDeliveryMethod('pickup')} 
                                     />
-                                    <span>Самовывоз из магазина</span>
+                                    <span><span>Самовывоз из магазина</span></span>
                                 </div>
                                 <p className={styles.radioText}>Стоимость доставки 0 рублей<br />Срок доставки 1-5 дней</p>
                             </label>
@@ -336,7 +360,7 @@ const Cart: React.FC = () => {
                                                 type="tel"
                                                 name="phone"
                                                 value={phone}
-                                                placeholder="Telephone*"
+                                                placeholder="Телефон*"
                                                 required
                                                 onChange={handlePhoneChange}
                                                 onFocus={handlePhoneFocus}
@@ -384,6 +408,8 @@ const Cart: React.FC = () => {
 };
 
 export default Cart;
+
+
 
 
 

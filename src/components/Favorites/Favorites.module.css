@@ -1,0 +1,65 @@
+.favoritesPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FBFBFB;
+    min-height: 80vh;
+    padding: 0 2.28vw 5.71vw 2.28vw; /* Боковые отступы как в бестселлерах */
+}
+
+.favoritesTitle {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: clamp(24px, 2.14vw, 42px);
+    text-transform: uppercase;
+    color: #333333;
+    margin: 4.5vw 0 3vw 0;
+}
+
+/* СЕТКА: Копирует размеры колонок и гэпы из твоего .grid бестселлеров */
+.favoritesGrid {
+    display: grid;
+    /* Строго 4 колонки по твоим размерам 23.59vw */
+    grid-template-columns: repeat(4, 23.59vw); 
+    /* Твой оригинальный gap между карточками */
+    gap: 3vw 0.36vw; 
+    width: 100%;
+    justify-content: center; /* Центрируем сетку на странице */
+}
+
+/* СТИЛИ ДЛЯ ПУСТОГО ИЗБРАННОГО */
+.emptyFavorites {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5vw;
+    padding-top: 6vw;
+}
+
+.emptyFavorites p {
+    font-style: italic;
+    color: #999999;
+    font-size: 1.14vw;
+}
+
+.backButton {
+    height: 4.42vw;
+    min-height: 50px;
+    padding: 0 2.5vw;
+    background-color: #333333;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.backButton:hover {
+    background-color: #000000;
+}
+
+.backButton:active {
+    transform: scale(0.97);
+}

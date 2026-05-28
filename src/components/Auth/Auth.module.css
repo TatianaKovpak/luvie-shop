@@ -1,0 +1,198 @@
+.authPage {
+    display: flex;
+    height: 75.21vw;
+    flex-direction: row;
+}
+
+.image {
+    width: 50.5vw;
+    height: 100vw;
+}
+
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.formContainer {
+    width: 50vw;
+    padding: 10vw 5.57vw;
+}
+
+.title {
+    margin-bottom: 2.14vw;
+    font-weight: 400;
+    font-size: 2.14vw;
+    line-height: 2.85vw;
+    letter-spacing: 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 2.14vw;
+    margin-bottom: 2.14vw;
+}
+
+.formButton {
+    width: 100%;
+    height: 4.42vw;
+    min-height: 50px;
+    background-color: #333333;
+    color: #FFFFFF;
+    border: none;
+    font-size: 1vw;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.formButton:hover {
+    background-color: #000000;
+}
+
+.formButton:active {
+    transform: scale(0.97);
+}
+
+.formButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 2.14vw;
+}
+
+.infoText {
+    font-weight: 400;
+    color: #605855;
+    font-size: 1.14vw;
+    line-height: 1.92vw;
+    letter-spacing: 0;
+}
+
+.registerLink {
+    width: 100%;
+    height: 4.42vw;
+    padding: 1.35vw 1.35vw 1.35vw 1.64vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: #C8BCB0 solid 1px;
+}
+
+.registerLink:hover {
+    background-color: #333333;
+    color: #FFFFFF;
+}
+
+.registerLink:hover img {
+    filter: brightness(0) invert(1);
+}
+
+.input {
+    border: none;
+    width: 34.57vw;
+    height: 2.57vw;
+    font-size: 1.71vw;
+    font-weight: 400;
+    line-height: 2.57vw;
+    letter-spacing: 0;
+}
+
+.input::placeholder {
+    color: #CDCBC0;
+}
+
+.input:focus {
+    outline: none;
+    color: #333333;
+}
+
+.regInput {
+    border: none;
+    width: 34.57vw;
+    height: 2.57vw;
+    font-size: 1vw;
+    font-weight: 400;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+}
+
+.regInput::placeholder {
+    color: #CDCBC0;
+}
+
+.regInput:focus {
+    outline: none;
+}
+
+
+.inputWrapper {
+    border-bottom: 1px solid rgba(51, 51, 51, 0.3);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 3.71vw;
+    width: 100%;
+    padding: 0.57vw;
+}
+
+.inputWrapper:focus-within {
+     border-bottom: 1px solid rgba(51, 51, 51, 1)
+}
+
+.regInputWrapper {
+    border: 1px solid #333333;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 3.42vw;
+    width: 100%;
+    padding: 1.14vw;
+}
+
+.forgotPassword {
+    align-self: flex-end;
+    font-weight: 400;
+    font-size: 1vw;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+}
+
+.infoTitle {
+    font-weight: 400;
+    font-size: 1.71vw;
+    line-height: 2.57vw;
+    letter-spacing: 0;
+}
+
+.sms {
+    font-weight: 400;
+    font-size: 1vw;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+    color: #000000;
+}
+
+.smsSentText {
+    font-weight: 400;
+    font-size: 1vw;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+    color: #000000;
+    margin-bottom: 2.14vw;
+}

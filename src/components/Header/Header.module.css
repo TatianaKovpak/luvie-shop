@@ -106,22 +106,55 @@
 .cartIconWrapper {
     position: relative;
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
 .cartBadge {
     position: absolute;
-    top: -0.3vw;
-    right: -0.5vw;
+    top: -0.2vw;
+    right: -0.7vw;
+    color: #fff; 
     background-color: #333333;
-    color: white;
-    font-size: 0.6vw;
-    min-width: 1vw;
-    height: 1vw;
+    width: 1.2vw;
+    height: 1.2vw;
     border-radius: 50%;
+    border: 1px solid #333333;
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-weight: 700;
+    align-items: center;
+    font-size: 0.9vw;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+    font-weight: 400;
 }
+
+/* Обертка для иконки избранного */
+.favoritesIconWrapper {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Бейдж избранного (один в один как у корзины) */
+.favoritesBadge {
+    position: absolute;
+    top: -0.2vw;
+    right: -0.7vw;
+    color: #fff; 
+    background-color: #333333;
+    width: 1.2vw;
+    height: 1.2vw;
+    border-radius: 50%;
+    border: 1px solid #333333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9vw;
+    line-height: 1.71vw;
+    letter-spacing: -1%;
+    font-weight: 400;
+}
+
 

@@ -1,18 +1,54 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
+import { addToFavoritesAction, removeFromFavoritesAction } from '../../services/actions/favoritesActions';
 import { IProductCardProps } from '../../types/schema';
 import styles from './ProductCard.module.css';
 
-const ProductCard: FC<IProductCardProps> = ({ id, name, price, images, isHit, colorName }) => {
-    const [isFavorite, setIsFavorite] = useState(false);
+const ProductCard: FC<IProductCardProps> = ({ id, name, price, images, isHit, colorName, colorCode }) => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
-    // Берем первое изображение из массива
+    // Достаем актуальный список избранного из Redux-стейта
+    const { items } = useAppSelector((state) => state.favorites);
+
+    // Берем первое изображение из массива, если это массив строк, либо саму строку
     const mainImage = images && images.length > 0 ? images[0] : '';
 
+    // Проверяем, отложена ли именно эта модель в именно этом цвете
+    const isFavorite = items.some(x => x.id.toString() === id.toString() && x.colorName === colorName);
+
     const handleCardClick = () => {
-        // Переходим на страницу товара с учетом ID и цвета
         navigate(`/product/${id}/${encodeURIComponent(colorName)}`);
+    };
+
+    // Обработчик клика по кнопке-сердечку
+    const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation(); // Останавливаем переход на страницу товара
+
+        // ОЧИСТКА: вырезаем пробелы, буквы, валюту и превращаем строку price в чистое число number
+        const cleanPrice = typeof price === 'number' 
+            ? price 
+            : parseInt(price.toString().replace(/[^\d]/g, ''), 10) || 0;
+
+        // Объект строго под интерфейс IFavoriteProduct (в файле экшенов)
+        const productData = { 
+            id: id.toString(), 
+            name, 
+            price: cleanPrice, // Передаем строго как number
+            images, 
+            isHit: !!isHit, 
+            colorName, 
+            colorCode 
+        };
+
+        if (isFavorite) {
+            // Если уже в избранном — удаляем по связке ID + цвет
+            dispatch(removeFromFavoritesAction(id.toString(), colorName));
+        } else {
+            // Если вещи нет — добавляем
+            dispatch(addToFavoritesAction(productData));
+        }
     };
 
     return (
@@ -23,11 +59,10 @@ const ProductCard: FC<IProductCardProps> = ({ id, name, price, images, isHit, co
                 {isHit && <div className={styles.hitBadge}>ХИТ</div>}
                 
                 <button 
+                    type="button" 
                     className={styles.favoriteBtn} 
-                    onClick={(e) => {
-                        e.stopPropagation(); // Остановка всплытия, чтобы не срабатывал переход при лайке
-                        setIsFavorite(!isFavorite);
-                    }}
+                    onClick={handleFavoriteClick}
+                    title={isFavorite ? "Убрать из избранного" : "Добавить в избранное"}
                 >
                     <img 
                         className={styles.icon} 
@@ -39,11 +74,11 @@ const ProductCard: FC<IProductCardProps> = ({ id, name, price, images, isHit, co
 
             <div className={styles.info}>
                 <h3 className={styles.name}>{name}</h3>
+                {/* Выводим цену, добавляя к ней знак рубля */}
                 <p className={styles.price}>{price} ₽</p>
             </div>
 
             <div className={styles.overlay}>
-                {/* Текст заменен на Подробнее, эффект вжимания в CSS */}
                 <button className={styles.button}>Подробнее</button>
             </div>
         </div>
@@ -51,4 +86,8 @@ const ProductCard: FC<IProductCardProps> = ({ id, name, price, images, isHit, co
 };
 
 export default ProductCard;
+
+
+
+
 
