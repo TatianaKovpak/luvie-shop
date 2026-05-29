@@ -20,6 +20,7 @@ export const menuData: IMenuSection[] = [
       },
       { name: 'Домашняя одежда', groups: [{ groupName: ['Пижамы', 'Халаты'] }] },
       { name: 'Пляжная одежда' },
+      { name: 'Одежда' },
     ],
   },
   {

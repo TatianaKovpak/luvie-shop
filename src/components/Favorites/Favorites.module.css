@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #FBFBFB;
     min-height: 80vh;
     padding: 0 2.28vw 5.71vw 2.28vw; /* Боковые отступы как в бестселлерах */
 }
@@ -11,7 +10,6 @@
     font-family: 'Raleway', sans-serif;
     font-weight: 400;
     font-size: clamp(24px, 2.14vw, 42px);
-    text-transform: uppercase;
     color: #333333;
     margin: 4.5vw 0 3vw 0;
 }

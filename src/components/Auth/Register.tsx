@@ -8,8 +8,11 @@ const Register: React.FC = () => {
     // Флаг отправки кода: false — анкета, true — форма для СМС
     const [isCodeSent, setIsCodeSent] = useState(false);
 
-    // Состояния для первой формы
-    const [fio, setFio] = useState('');
+    // ИСПРАВЛЕНО: Раздельные состояния под Фамилию, Имя и Отчество
+    const [lastName, setLastName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [middleName, setMiddleName] = useState('');
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -38,7 +41,16 @@ const Register: React.FC = () => {
             return;
         }
 
-        console.log('Запрос SMS-кода для данных:', { fio, email, password, phone });
+        // Собираем полное ФИО для отправки на бэкенд и МойСклад через пробелы
+        const fullFio = `${lastName.trim()} ${firstName.trim()} ${middleName.trim()}`.trim();
+
+        console.log('Запрос SMS-кода для данных:', { 
+            fio: fullFio, 
+            email, 
+            password, 
+            phone 
+        });
+        
         setIsCodeSent(true);
     };
 
@@ -47,13 +59,18 @@ const Register: React.FC = () => {
         e.preventDefault();
 
         console.log('Проверка SMS-кода:', smsCode);
-        setFio('');
+        
+        // Очищаем все стейты
+        setLastName('');
+        setFirstName('');
+        setMiddleName('');
         setEmail('');
         setPassword('');
         setConfirmPassword('');
         setPhone('');
         setSmsCode('');
         setIsCodeSent(false);
+        
         navigate('/login');
     };
 
@@ -67,9 +84,38 @@ const Register: React.FC = () => {
                     <>
                         <h2 className={styles.title}>Зарегистрироваться</h2>
                         <form className={styles.form} onSubmit={handleGetCodeSubmit}>
+                            
+                            {/* ТРИ РАЗДЕЛЬНЫХ ИНПУТА ДЛЯ ФИО */}
                             <div className={styles.regInputWrapper}>
-                                <input className={styles.regInput} type="text" value={fio} onChange={(e) => setFio(e.target.value)} placeholder='ФИО*' required />
+                                <input 
+                                    className={styles.regInput} 
+                                    type="text" 
+                                    value={lastName} 
+                                    onChange={(e) => setLastName(e.target.value)} 
+                                    placeholder='Фамилия*' 
+                                    required 
+                                />
                             </div>
+                            <div className={styles.regInputWrapper}>
+                                <input 
+                                    className={styles.regInput} 
+                                    type="text" 
+                                    value={firstName} 
+                                    onChange={(e) => setFirstName(e.target.value)} 
+                                    placeholder='Имя*' 
+                                    required 
+                                />
+                            </div>
+                            <div className={styles.regInputWrapper}>
+                                <input 
+                                    className={styles.regInput} 
+                                    type="text" 
+                                    value={middleName} 
+                                    onChange={(e) => setMiddleName(e.target.value)} 
+                                    placeholder='Отчество'
+                                />
+                            </div>
+
                             <div className={styles.regInputWrapper}>
                                 <input className={styles.regInput} type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail*" required />
                             </div>

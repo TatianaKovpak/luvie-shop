@@ -1,0 +1,79 @@
+.profilePage {
+    display: flex;
+    flex-direction: row;
+    padding: 4.28vw 8.5vw;
+}
+
+.title {
+    font-weight: 400;
+    font-size: 1.71vw;
+    line-height: 2.57vw;
+    letter-spacing: 0;
+
+}
+
+.profileMenu {
+    margin-top: 2.5vw;
+    width: 30.5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.42vw;
+}
+
+.menuLink {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.71vw;
+    font-weight: 400;
+    font-size: 1.14vw;
+    line-height: 1.92vw;
+    letter-spacing: 0;
+    opacity: 0.5;
+}
+
+.activeLink {
+    opacity: 1;
+}
+
+.menuData {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 50.92vw;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    width: 100%;
+}
+
+.profileInfoTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #E8E8DD;
+    height: 5.42vw;
+}
+
+.profileData {
+    padding: 1.21vw 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.21vw;
+    font-weight: 400;
+    font-size: 1.14vw;
+    line-height: 1.92vw;
+    letter-spacing: 0;
+}
+
+.fluentButton {
+    width: 1.42vw;
+    height: 1.42vw;
+    display: flex;
+    align-items: center;
+}

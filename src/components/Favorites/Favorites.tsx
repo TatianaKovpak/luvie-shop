@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../services/hooks';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './Favorites.module.css';
+import GiftCardBanner from '../GiftCardBanner/GiftCardBanner';
 
 const Favorites: React.FC = () => {
     // Достаем актуальный список отложенных товаров из глобального Redux-стейта
     const { items } = useAppSelector((state) => state.favorites);
 
     return (
+        <>
         <section className={styles.favoritesPage}>
             <h2 className={styles.favoritesTitle}>Избранное</h2>
 
@@ -31,11 +33,15 @@ const Favorites: React.FC = () => {
                 </div>
             ) : (
                 <div className={styles.emptyFavorites}>
-                    <p>Ваша страница избранного пуста</p>
-                    <Link to="/catalog" className={styles.backButton}>В каталог</Link>
+                    <p>В избранном пока нет товаров</p>
                 </div>
             )}
+            
         </section>
+        
+        <GiftCardBanner/>
+        </>
+        
     );
 };
 

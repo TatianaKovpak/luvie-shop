@@ -10,7 +10,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 import { products } from '../../constants/products';
-import { useAppDispatch } from '../../services/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { addToCartAction } from '../../services/actions/cartActions';
 import RelatedProducts from '../RelatedProducts/RelatedProducts';
 import styles from './ProductPage.module.css';
@@ -18,6 +18,9 @@ import styles from './ProductPage.module.css';
 const ProductPage: FC = () => {
     const { id, color } = useParams<{ id: string, color: string }>();
     const dispatch = useAppDispatch();
+
+    // Достаем актуальный список товаров в корзине для контроля остатков
+    const { items: cartItems } = useAppSelector((state) => state.cart);
 
     const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -40,14 +43,29 @@ const ProductPage: FC = () => {
 
     const price = useMemo(() => {
         if (!currentVariant) return 0;
-        return Number(currentVariant.price.replace(/\D/g, ''));
+        return Number(currentVariant.price.toString().replace(/\D/g, ''));
     }, [currentVariant]);
 
+    // Считаем, сколько штук этого размера и цвета УЖЕ лежит в корзине пользователя
+    const alreadyInCartQty = useMemo(() => {
+        if (!product || !currentVariant || !selectedSize) return 0;
+        const existingItem = cartItems.find(
+            item => item.id === product.id.toString() && 
+                    item.color === currentVariant.colorName && 
+                    item.size === selectedSize
+        );
+        return existingItem ? existingItem.quantity : 0;
+    }, [cartItems, product, currentVariant, selectedSize]);
+
+    // УМНЫЙ МАКСИМАЛЬНЫЙ ОСТАТОК: вычитаем из общего остатка МоегоСклада то, что уже добавлено
     const maxAvailable = useMemo(() => {
         if (!currentVariant || !selectedSize) return 0;
         const sizeData = currentVariant.sizes.find(s => s.value === selectedSize);
-        return sizeData?.quantity || 0;
-    }, [currentVariant, selectedSize]);
+        const totalStock = sizeData?.quantity || 0;
+        
+        const available = totalStock - alreadyInCartQty;
+        return available > 0 ? available : 0;
+    }, [currentVariant, selectedSize, alreadyInCartQty]);
 
     useEffect(() => {
         setActiveVariantIdx(initialIndex);
@@ -56,17 +74,25 @@ const ProductPage: FC = () => {
     }, [initialIndex, id]);
 
     useEffect(() => {
-        setCounter(selectedSize ? 1 : 0);
-    }, [selectedSize]);
+        setCounter(selectedSize && maxAvailable > 0 ? 1 : 0);
+    }, [selectedSize, maxAvailable]);
 
-    // ФУНКЦИЯ ДОБАВЛЕНИЯ В КОРЗИНУ
+    // ФУНКЦИЯ ДОБАВЛЕНИЯ В КОРЗИНУ С ОГРАНИЧИТЕЛЕМ
     const handleAddToCart = () => {
         if (product && currentVariant && selectedSize && counter > 0) {
+            const sizeData = currentVariant.sizes.find(s => s.value === selectedSize);
+            const totalStock = sizeData?.quantity || 0;
+
+            if (alreadyInCartQty + counter > totalStock) {
+                alert(`Невозможно добавить. На складе всего ${totalStock} шт., а у вас в корзине уже лежит ${alreadyInCartQty} шт.`);
+                return;
+            }
+
             dispatch(addToCartAction({
                 id: product.id.toString(),
                 name: product.name,
                 price: price,
-                image: currentVariant.images[0], 
+                image: currentVariant.images && currentVariant.images.length > 0 ? currentVariant.images[0] : '', 
                 color: currentVariant.colorName,
                 colorCode: currentVariant.colorCode, 
                 size: selectedSize,
@@ -78,12 +104,13 @@ const ProductPage: FC = () => {
 
     if (!product || !currentVariant) return <div className={styles.error}>Товар не найден</div>;
 
-    return (
+
+       return (
         <section className={styles.productPage}>
             <div className={styles.container}>
                 <div className={styles.mainInfo}>
                     
-                    {/* ТВОЙ СВАЙПЕР (БЕЗ ИЗМЕНЕНИЙ) */}
+                    {/* ТВОЙ СВАЙПЕР */}
                     <Swiper
                         className={styles.swiper}
                         modules={[Autoplay, Pagination, EffectFade]}
@@ -143,18 +170,33 @@ const ProductPage: FC = () => {
                             </div>
 
                             <div className={styles.optionGroup}>
-                                <p className={styles.optionLabel}>Размер</p>
+                                <div className={styles.sizeHeaderWrapper}>
+                                    <p className={styles.optionLabel}>Размер</p>
+                                    
+                                    {/* ССЫЛКА НА СТРАНИЦУ ТАБЛИЦЫ РАЗМЕРОВ */}
+                                    <Link to="/size-guide" className={styles.sizeGuideLink}>
+                                        гид по размерам
+                                    </Link>
+                                </div>
                                 <div className={styles.sizeList}>
-                                    {currentVariant.sizes.map((s) => (
-                                        <button
-                                            key={s.value}
-                                            disabled={!s.inStock}
-                                            className={`${styles.sizeBtn} ${selectedSize === s.value ? styles.activeSize : ''} ${!s.inStock ? styles.disabledBtn : ''}`}
-                                            onClick={() => setSelectedSize(selectedSize === s.value ? null : s.value)}
-                                        >
-                                            {s.value}
-                                        </button>
-                                    ))}
+                                    {currentVariant.sizes.map((s) => {
+                                        const isOutOfStockInCart = (cartItems.find(
+                                            item => item.id === product.id.toString() && 
+                                                    item.color === currentVariant.colorName && 
+                                                    item.size === s.value
+                                        )?.quantity || 0) >= s.quantity;
+
+                                        return (
+                                            <button
+                                                key={s.value}
+                                                disabled={!s.inStock || isOutOfStockInCart}
+                                                className={`${styles.sizeBtn} ${selectedSize === s.value ? styles.activeSize : ''} ${(!s.inStock || isOutOfStockInCart) ? styles.disabledBtn : ''}`}
+                                                onClick={() => setSelectedSize(selectedSize === s.value ? null : s.value)}
+                                            >
+                                                {s.value}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
@@ -171,8 +213,8 @@ const ProductPage: FC = () => {
 
                                 <p className={styles.price}>{(counter * price || price).toLocaleString()} ₽</p>
 
-                                <button className={styles.buyBtn} disabled={!selectedSize} onClick={handleAddToCart}>
-                                    {selectedSize ? "В корзину" : "Выберите размер"}
+                                <button className={styles.buyBtn} disabled={!selectedSize || maxAvailable === 0} onClick={handleAddToCart}>
+                                    {selectedSize ? (maxAvailable === 0 ? "Всё в корзине" : "В корзину") : "Выберите размер"}
                                 </button>
                             </div>
                         </div>
@@ -200,4 +242,3 @@ const ProductPage: FC = () => {
 };
 
 export default ProductPage;
-
